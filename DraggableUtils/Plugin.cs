@@ -2,7 +2,7 @@
 using BepInEx.Logging;
 using HarmonyLib;
 
-namespace PauseConfigurator
+namespace DraggableUtils
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin
@@ -12,7 +12,7 @@ namespace PauseConfigurator
         private void Awake()
         {
             Log = Logger;
-            new Harmony("com.kyp.plugin.pauseconfigurator").PatchAll();
+            new Harmony("com.kyp.plugin.draggableutils").PatchAll();
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
         }
     }

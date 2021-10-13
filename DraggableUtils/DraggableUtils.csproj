@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyName>PauseConfigurator</AssemblyName>
-    <Description>Easy configurations for pause and play settings</Description>
+    <AssemblyName>DraggableUtils</AssemblyName>
+    <Description>Draggable utilities for bulk actions</Description>
     <Version>0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>9.0</LangVersion>

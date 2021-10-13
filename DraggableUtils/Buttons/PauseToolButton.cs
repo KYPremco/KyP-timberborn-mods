@@ -1,6 +1,6 @@
 using System.IO;
-using PauseConfigurator.Factorys;
-using PauseConfigurator.Tools;
+using DraggableUtils.Factorys;
+using DraggableUtils.Tools;
 using Timberborn.AssetSystem;
 using Timberborn.BottomBarSystem;
 using Timberborn.CoreUI;
@@ -9,13 +9,13 @@ using Timberborn.PrioritySystemUI;
 using Timberborn.ToolSystem;
 using UnityEngine;
 
-namespace PauseConfigurator.Buttons
+namespace DraggableUtils.Buttons
 {
     public class PauseToolButton : IBottomBarElementProvider
     {
         private readonly ToolGroupButtonFactory _toolGroupButtonFactory;
 
-        private readonly PauseConfiguratorGroup _pauseConfiguratorGroup;
+        private readonly DraggableUtilsGroup _draggableUtilsGroup;
         
         private readonly ToolButtonFactory _toolButtonFactory;
 
@@ -24,13 +24,13 @@ namespace PauseConfigurator.Buttons
         private readonly PrioritySpriteLoader _prioritySpriteLoader;
         
         public PauseToolButton(
-            PauseConfiguratorGroup pauseConfiguratorGroup,
+            DraggableUtilsGroup draggableUtilsGroup,
             ToolButtonFactory toolButtonFactory,
             ToolGroupButtonFactory toolGroupButtonFactory,
             PauseToolFactory pauseToolFactory, 
             PrioritySpriteLoader prioritySpriteLoader)
         {
-            this._pauseConfiguratorGroup = pauseConfiguratorGroup;
+            this._draggableUtilsGroup = draggableUtilsGroup;
             this._toolButtonFactory = toolButtonFactory;
             this._toolGroupButtonFactory = toolGroupButtonFactory;
             this._pauseToolFactory = pauseToolFactory;
@@ -40,7 +40,7 @@ namespace PauseConfigurator.Buttons
         
         public BottomBarElement GetElement()
         {
-            ToolGroupButton blue = this._toolGroupButtonFactory.CreateBlue((ToolGroup) this._pauseConfiguratorGroup);
+            ToolGroupButton blue = this._toolGroupButtonFactory.CreateBlue((ToolGroup) this._draggableUtilsGroup);
             
             //Pause buildings
             this.AddTool((Tool) this._pauseToolFactory.Create(true), _prioritySpriteLoader.LoadButtonSprite(Priority.Low), blue);

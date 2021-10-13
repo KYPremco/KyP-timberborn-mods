@@ -1,19 +1,19 @@
 using Bindito.Core;
-using PauseConfigurator.Buttons;
-using PauseConfigurator.Factorys;
-using PauseConfigurator.Tools;
+using DraggableUtils.Buttons;
+using DraggableUtils.Factorys;
+using DraggableUtils.Tools;
 using Timberborn.BottomBarSystem;
 using Timberborn.Effects;
 
-namespace PauseConfigurator.Configurators
+namespace DraggableUtils.Configurators
 {
-    public class DemoConfigurator : IConfigurator
+    public class DraggableUtilsConfigurator : IConfigurator
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
             containerDefinition.Bind<PauseToolFactory>().AsSingleton();
             
-            containerDefinition.Bind<PauseConfiguratorGroup>().AsSingleton();
+            containerDefinition.Bind<DraggableUtilsGroup>().AsSingleton();
             containerDefinition.Bind<PauseTool>().AsSingleton();
 
             containerDefinition.Bind<PauseToolButton>().AsSingleton();

@@ -1,11 +1,11 @@
-using PauseConfigurator.Tools;
+using DraggableUtils.Tools;
 using Timberborn.AreaSelectionSystem;
 using Timberborn.CoreUI;
 using Timberborn.InputSystem;
 using Timberborn.ToolSystem;
 using Timberborn.UISound;
 
-namespace PauseConfigurator.Factorys
+namespace DraggableUtils.Factorys
 {
     public class PauseToolFactory
     {
@@ -21,14 +21,14 @@ namespace PauseConfigurator.Factorys
 
         private readonly Colors _colors;
 
-        private readonly PauseConfiguratorGroup _pauseAbleToolGroup;
+        private readonly DraggableUtilsGroup _pauseAbleToolGroup;
 
         public PauseToolFactory(AreaBlockObjectPickerFactory areaBlockObjectPickerFactory,
             InputService inputService,
             BlockObjectSelectionDrawerFactory blockObjectSelectionDrawerFactory,
             CursorService cursorService,
             UISoundController uiSoundController,
-            PauseConfiguratorGroup pauseAbleToolGroup,
+            DraggableUtilsGroup pauseAbleToolGroup,
             Colors colors)
         {
             this._areaBlockObjectPickerFactory = areaBlockObjectPickerFactory;

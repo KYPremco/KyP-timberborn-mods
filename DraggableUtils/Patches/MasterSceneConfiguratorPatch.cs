@@ -1,16 +1,16 @@
 using Bindito.Core;
+using DraggableUtils.Configurators;
 using HarmonyLib;
-using PauseConfigurator.Configurators;
 using Timberborn.MasterScene;
 
-namespace PauseConfigurator.Patches
+namespace DraggableUtils.Patches
 {
     [HarmonyPatch(typeof(MasterSceneConfigurator), "Configure", typeof(IContainerDefinition))]
     public static class MasterSceneConfiguratorPatch
     {
         private static void Postfix(IContainerDefinition containerDefinition)
         {
-            containerDefinition.Install((IConfigurator) new DemoConfigurator());
+            containerDefinition.Install((IConfigurator) new DraggableUtilsConfigurator());
         }
     }
 }

@@ -10,7 +10,7 @@ using Timberborn.ToolSystem;
 using Timberborn.UISound;
 using UnityEngine;
 
-namespace PauseConfigurator.Tools
+namespace DraggableUtils.Tools
 {
     public class PauseTool : Tool, IInputProcessor
     {

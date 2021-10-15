@@ -1,10 +1,12 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using CustomAssetLoader.RegisterSystem;
 using HarmonyLib;
 
 namespace DemoCode
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("com.kyp.utils.customassetloader")]
     public class Plugin : BaseUnityPlugin
     {
         internal static ManualLogSource Log;
@@ -14,6 +16,8 @@ namespace DemoCode
             Log = Logger;
             new Harmony("com.kyp.plugin.demo").PatchAll();
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
+            
+            AssetRegisterService.RegisterInGameAssets("com.kyp.plugin.demo", "Demo", new []{ "DemoPlugin" });
         }
     }
 }

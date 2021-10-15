@@ -1,4 +1,5 @@
 using System.IO;
+using CustomAssetLoader.AssetSystem;
 using DraggableUtils.Factorys;
 using DraggableUtils.Tools;
 using Timberborn.AssetSystem;
@@ -22,19 +23,23 @@ namespace DraggableUtils.Buttons
         private readonly PauseToolFactory _pauseToolFactory;
         
         private readonly PrioritySpriteLoader _prioritySpriteLoader;
-        
+
+        private readonly IAssetLoader _assetLoader;
+
         public PauseToolButton(
             DraggableUtilsGroup draggableUtilsGroup,
             ToolButtonFactory toolButtonFactory,
             ToolGroupButtonFactory toolGroupButtonFactory,
             PauseToolFactory pauseToolFactory, 
-            PrioritySpriteLoader prioritySpriteLoader)
+            PrioritySpriteLoader prioritySpriteLoader,
+            IAssetLoader assetLoader)
         {
             this._draggableUtilsGroup = draggableUtilsGroup;
             this._toolButtonFactory = toolButtonFactory;
             this._toolGroupButtonFactory = toolGroupButtonFactory;
             this._pauseToolFactory = pauseToolFactory;
             this._prioritySpriteLoader = prioritySpriteLoader;
+            this._assetLoader = assetLoader;
         }
         
         
@@ -43,10 +48,10 @@ namespace DraggableUtils.Buttons
             ToolGroupButton blue = this._toolGroupButtonFactory.CreateBlue((ToolGroup) this._draggableUtilsGroup);
             
             //Pause buildings
-            this.AddTool((Tool) this._pauseToolFactory.Create(true), _prioritySpriteLoader.LoadButtonSprite(Priority.Low), blue);
+            this.AddTool((Tool) this._pauseToolFactory.Create(true), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/pause_button"), blue);
             
             //Resume buildings
-            this.AddTool((Tool) this._pauseToolFactory.Create(false), _prioritySpriteLoader.LoadButtonSprite(Priority.High), blue);
+            this.AddTool((Tool) this._pauseToolFactory.Create(false), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/play_button"), blue);
             return BottomBarElement.CreateMultiLevel(blue.Root, blue.ToolButtonsElement);
         }
         

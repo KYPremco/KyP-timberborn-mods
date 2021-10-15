@@ -14,7 +14,6 @@ namespace DemoCode.Configurators
 
             containerDefinition.Bind<DemoMultiLayeredButton>().AsSingleton();
             containerDefinition.MultiBind<BottomBarModule>().ToProvider<BottomBarModuleProvider>().AsSingleton();
-            
         }
         
         private class BottomBarModuleProvider : IProvider<BottomBarModule>

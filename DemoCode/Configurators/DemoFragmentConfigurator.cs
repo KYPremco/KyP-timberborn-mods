@@ -10,7 +10,7 @@ namespace DemoCode.Configurators
         public void Configure(IContainerDefinition containerDefinition)
         {
             containerDefinition.Bind<DemoFragment>().AsSingleton();
-            containerDefinition.MultiBind<EntityPanelModule>().ToProvider<DemoFragmentConfigurator.EntityPanelModuleProvider>().AsSingleton();
+            containerDefinition.MultiBind<EntityPanelModule>().ToProvider<EntityPanelModuleProvider>().AsSingleton();
         }
         
         private class EntityPanelModuleProvider : IProvider<EntityPanelModule>

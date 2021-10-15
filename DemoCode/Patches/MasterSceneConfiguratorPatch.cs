@@ -3,6 +3,7 @@ using DemoCode.Configurators;
 using HarmonyLib;
 using Timberborn.MasterScene;
 
+
 namespace DemoCode.Patches
 {
     [HarmonyPatch(typeof(MasterSceneConfigurator), "Configure", typeof(IContainerDefinition))]
@@ -11,6 +12,7 @@ namespace DemoCode.Patches
         private static void Postfix(IContainerDefinition containerDefinition)
         {
             containerDefinition.Install((IConfigurator) new DemoConfigurator());
+            containerDefinition.Install((IConfigurator) new DemoFragmentConfigurator());
         }
     }
 }

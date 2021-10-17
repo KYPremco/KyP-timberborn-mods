@@ -11,26 +11,28 @@ namespace DraggableUtils.Configurators
     {
         public void Configure(IContainerDefinition containerDefinition)
         {
-            containerDefinition.Bind<PauseToolFactory>().AsSingleton();
+            containerDefinition.Bind<DraggableToolFactory>().AsSingleton();
             
             containerDefinition.Bind<DraggableUtilsGroup>().AsSingleton();
             containerDefinition.Bind<PauseTool>().AsSingleton();
+            containerDefinition.Bind<HaulPrioritizeTool>().AsSingleton();
+            containerDefinition.Bind<EmptyStorageTool>().AsSingleton();
 
-            containerDefinition.Bind<PauseToolButton>().AsSingleton();
+            containerDefinition.Bind<DraggableToolButtons>().AsSingleton();
             containerDefinition.MultiBind<BottomBarModule>().ToProvider<BottomBarModuleProvider>().AsSingleton();
             
         }
         
         private class BottomBarModuleProvider : IProvider<BottomBarModule>
         {
-            private readonly PauseToolButton _showMultilayeredButton;
+            private readonly DraggableToolButtons _draggableToolButtons;
 
-            public BottomBarModuleProvider(PauseToolButton showMultilayeredButton) => this._showMultilayeredButton = showMultilayeredButton;
+            public BottomBarModuleProvider(DraggableToolButtons draggableToolButtons) => this._draggableToolButtons = draggableToolButtons;
 
             public BottomBarModule Get()
             {
                 BottomBarModule.Builder builder = new BottomBarModule.Builder();
-                builder.AddLeftSectionElement((IBottomBarElementProvider) this._showMultilayeredButton, 8);
+                builder.AddLeftSectionElement((IBottomBarElementProvider) this._draggableToolButtons, 8);
                 return builder.Build();
             }
         }

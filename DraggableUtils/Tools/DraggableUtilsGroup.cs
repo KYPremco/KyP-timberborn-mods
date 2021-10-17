@@ -15,6 +15,6 @@ namespace DraggableUtils.Tools
         
         public override string IconName => "BeaverGeneratorTool";
 
-        public override string DisplayNameLocKey => "Draggable Utilities";
+        public override string DisplayNameLocKey => "Kyp.ToolGroups.DraggableUtils";
     }
 }

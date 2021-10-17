@@ -1,110 +1,71 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Timberborn.AreaSelectionSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Buildings;
 using Timberborn.InputSystem;
-using Timberborn.PrioritySystemUI;
+using Timberborn.InventorySystem;
+using Timberborn.Localization;
 using Timberborn.ToolSystem;
-using Timberborn.UISound;
 using UnityEngine;
 
 namespace DraggableUtils.Tools
 {
-    public class PauseTool : Tool, IInputProcessor
+    public class PauseTool : DraggableTool, IInputProcessor
     {
-        private readonly InputService _inputService;
-
-        private readonly AreaBlockObjectPickerFactory _areaBlockObjectPickerFactory;
-
-        private readonly BlockObjectSelectionDrawerFactory _blockObjectSelectionDrawerFactory;
-
-        private readonly CursorService _cursorService;
-
-        private readonly UISoundController _uiSoundController;
+        private static readonly string TitlePlayLocKey = "Kyp.PauseTool.Play.Title";
         
-        private BlockObjectSelectionDrawer _actionSelectionDrawer;
-
-        private BlockObjectSelectionDrawer _highlightSelectionDrawer;
+        private static readonly string TitlePauseLocKey = "Kyp.PauseTool.Pause.Title";
         
-        private AreaBlockObjectPicker _areaBlockObjectPicker;
+        private static readonly string DescriptionLocKey = "Kyp.PauseTool.Description";
+        
+        private static readonly string PrioritizedLocKey = "Kyp.PauseTool.Prioritized";
 
-        private bool _pauseBuilding;
+        private readonly ILoc _loc;
         
         private ToolDescription _toolDescription;
 
-        public PauseTool(AreaBlockObjectPickerFactory areaBlockObjectPickerFactory,
-            InputService inputService,
-            BlockObjectSelectionDrawerFactory blockObjectSelectionDrawerFactory,
-            CursorService cursorService,
-            UISoundController uiSoundController)
+        private bool _pauseBuilding;
+
+        public void Initialize(bool pauseBuilding, ToolGroup toolGroup, Color highlightColor, Color actionColor, Color areaTileColor,
+            Color areaSideColor)
         {
-            this._areaBlockObjectPickerFactory = areaBlockObjectPickerFactory;
-            this._inputService = inputService;
-            this._blockObjectSelectionDrawerFactory = blockObjectSelectionDrawerFactory;
-            this._cursorService = cursorService;
-            this._uiSoundController = uiSoundController;
+            base.Initialize(toolGroup, highlightColor, actionColor, areaTileColor, areaSideColor);
+            this._pauseBuilding = pauseBuilding;
+            this.InitializeToolDescription();
         }
-
-        public bool ProcessInput() => this._areaBlockObjectPicker.PickBlockObjects<PausableBuilding>(
-            new AreaBlockObjectPicker.Callback(this.PreviewCallback),
-            new AreaBlockObjectPicker.Callback(this.ActionCallback), new Action(this.ShowNoneCallback));
-
-        public override void Enter()
+        
+        private void InitializeToolDescription()
         {
-            this._inputService.AddInputProcessor((IInputProcessor) this);
-            this._areaBlockObjectPicker = this._areaBlockObjectPickerFactory.Create();
-        }
-
-        public override void Exit()
-        {
-            this._cursorService.ResetCursor();
-            this._highlightSelectionDrawer.StopDrawing();
-            this._actionSelectionDrawer.StopDrawing();
-            this._inputService.RemoveInputProcessor((IInputProcessor) this);
+            this._toolDescription = new ToolDescription.Builder(
+                _pauseBuilding ? _loc.T(TitlePauseLocKey) : _loc.T(TitlePlayLocKey))
+                .AddSection(_loc.T(DescriptionLocKey))
+                .AddPrioritizedSection(_loc.T(PrioritizedLocKey))
+                .Build();
         }
         
         public override ToolDescription Description() => this._toolDescription;
 
-        public void Initialize(ToolGroup toolGroup,
-            bool pauseBuilding,
-            Color highlightColor,
-            Color actionColor,
-            Color areaTileColor,
-            Color areaSideColor)
+        public PauseTool(AreaBlockObjectPickerFactory areaBlockObjectPickerFactory, 
+            InputService inputService, 
+            BlockObjectSelectionDrawerFactory blockObjectSelectionDrawerFactory, 
+            CursorService cursorService,
+            ILoc loc) 
+            : base(areaBlockObjectPickerFactory, inputService, blockObjectSelectionDrawerFactory, cursorService)
         {
-            this._pauseBuilding = pauseBuilding;
-            this._highlightSelectionDrawer =
-                this._blockObjectSelectionDrawerFactory.Create(highlightColor, areaTileColor, areaSideColor);
-            this._actionSelectionDrawer =
-                this._blockObjectSelectionDrawerFactory.Create(actionColor, areaTileColor, areaSideColor);
-            this.ToolGroup = toolGroup;
-
-            this.InitializeToolDescription();
+            this._loc = loc;
         }
 
-        private void PreviewCallback(
-            IEnumerable<BlockObject> blockObjects,
-            Vector3Int start,
-            Vector3Int end,
-            bool selectionStarted,
-            bool selectingArea)
+        public override IEnumerable<BlockObject> AreaSelectionExpression(IEnumerable<BlockObject> blockObjects)
         {
-            IEnumerable<BlockObject> blockObjects1 = blockObjects.Where((bo =>
+            return blockObjects.Where((bo =>
             {
                 PausableBuilding component = bo.GetComponent<PausableBuilding>();
                 return component != null && component.enabled && component.IsPausable();
             }));
-            if (selectionStarted && !selectingArea)
-                this._actionSelectionDrawer.Draw(blockObjects1, start, end, false);
-            else if (selectingArea)
-                this._actionSelectionDrawer.Draw(blockObjects1, start, end, true);
-            else
-                this._highlightSelectionDrawer.Draw(blockObjects1, start, end, false);
         }
 
-        private void ActionCallback(
+        protected override void ActionCallback(
             IEnumerable<BlockObject> blockObjects,
             Vector3Int start,
             Vector3Int end,
@@ -122,21 +83,6 @@ namespace DraggableUtils.Tools
                 else
                     component.Resume();
             }
-        }
-
-        private void ShowNoneCallback()
-        {
-            this._highlightSelectionDrawer.StopDrawing();
-            this._actionSelectionDrawer.StopDrawing();
-        }
-
-        private void InitializeToolDescription()
-        {
-            this._toolDescription = new ToolDescription.Builder(
-                _pauseBuilding ? "Pause buildings" : "Resume buildings")
-                .AddSection("Use this tool to set the status of buildings.")
-                .AddPrioritizedSection("Click an item to set it's status or hold to select a bigger area.")
-                .Build();
         }
     }
 }

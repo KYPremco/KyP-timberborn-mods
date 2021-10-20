@@ -17,6 +17,7 @@ namespace DraggableUtils
             new Harmony("com.kyp.plugin.draggableutils").PatchAll();
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
             AssetRegisterService.RegisterInGameAssets("com.kyp.plugin.draggableutils", "DraggableUtils", new []{ "Assets" });
+            
         }
     }
 }

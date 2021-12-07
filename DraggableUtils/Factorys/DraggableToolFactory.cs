@@ -35,8 +35,7 @@ namespace DraggableUtils.Factorys
             UISoundController uiSoundController,
             DraggableUtilsGroup pauseAbleToolGroup,
             Colors colors, 
-            ILoc loc,
-            EmptyInventoriesService emptyInventoriesService)
+            ILoc loc)
         {
             this._areaBlockObjectPickerFactory = areaBlockObjectPickerFactory;
             this._inputService = inputService;
@@ -48,24 +47,24 @@ namespace DraggableUtils.Factorys
             this._loc = loc;
         }
         
-        public PauseTool CreatePauseTool(bool pauseBuildings)
+        public PauseTool CreatePauseTool()
         {
             PauseTool pauseTool = new PauseTool(_areaBlockObjectPickerFactory, _inputService, _blockObjectSelectionDrawerFactory, _cursorService, _loc);
-            pauseTool.Initialize(pauseBuildings, (ToolGroup) _pauseAbleToolGroup, this._colors.PriorityHiglightColor, this._colors.PriorityActionColor, this._colors.PriorityTileColor, this._colors.PrioritySideColor);
+            pauseTool.Initialize((ToolGroup) _pauseAbleToolGroup, this._colors.PriorityHiglightColor, this._colors.PriorityActionColor, this._colors.PriorityTileColor, this._colors.PrioritySideColor);
             return pauseTool;
         }
         
-        public HaulPrioritizeTool CreateHaulPrioritizeTool(bool prioritize)
+        public HaulPrioritizeTool CreateHaulPrioritizeTool()
         {
             HaulPrioritizeTool haulPrioritizeTool = new HaulPrioritizeTool(_areaBlockObjectPickerFactory, _inputService, _blockObjectSelectionDrawerFactory, _cursorService, _loc);
-            haulPrioritizeTool.Initialize(prioritize, (ToolGroup) _pauseAbleToolGroup, this._colors.PriorityHiglightColor, this._colors.PriorityActionColor, this._colors.PriorityTileColor, this._colors.PrioritySideColor);
+            haulPrioritizeTool.Initialize((ToolGroup) _pauseAbleToolGroup, this._colors.PriorityHiglightColor, this._colors.PriorityActionColor, this._colors.PriorityTileColor, this._colors.PrioritySideColor);
             return haulPrioritizeTool;
         }
         
-        public EmptyStorageTool CreateEmptyStorageTool(bool emptyStorage)
+        public EmptyStorageTool CreateEmptyStorageTool()
         {
             EmptyStorageTool emptyStorageTool = new EmptyStorageTool(_areaBlockObjectPickerFactory, _inputService, _blockObjectSelectionDrawerFactory, _cursorService, _loc);
-            emptyStorageTool.Initialize(emptyStorage, (ToolGroup) _pauseAbleToolGroup, this._colors.PriorityHiglightColor, this._colors.PriorityActionColor, this._colors.PriorityTileColor, this._colors.PrioritySideColor);
+            emptyStorageTool.Initialize((ToolGroup) _pauseAbleToolGroup, this._colors.PriorityHiglightColor, this._colors.PriorityActionColor, this._colors.PriorityTileColor, this._colors.PrioritySideColor);
             return emptyStorageTool;
         }
     }

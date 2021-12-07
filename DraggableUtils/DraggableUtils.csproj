@@ -22,6 +22,6 @@
   
   <ItemGroup>
     <Reference Include="C:\Development\prive\Timberborn\libs\*.dll" />
-    <Reference Include="C:\Development\prive\Timberborn\CustomAssetLoader\bin\Debug\netstandard2.1\CustomAssetLoader.dll" />
+    <Reference Include="C:\Development\prive\Timberborn\mods\TimberApi\TimberAPI.dll" />
   </ItemGroup>
 </Project>

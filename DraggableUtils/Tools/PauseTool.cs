@@ -13,9 +13,7 @@ namespace DraggableUtils.Tools
 {
     public class PauseTool : DraggableTool, IInputProcessor
     {
-        private static readonly string TitlePlayLocKey = "Kyp.PauseTool.Play.Title";
-        
-        private static readonly string TitlePauseLocKey = "Kyp.PauseTool.Pause.Title";
+        private static readonly string TitlLocKey = "Kyp.PauseTool.Title";
         
         private static readonly string DescriptionLocKey = "Kyp.PauseTool.Description";
         
@@ -24,21 +22,18 @@ namespace DraggableUtils.Tools
         private readonly ILoc _loc;
         
         private ToolDescription _toolDescription;
-
-        private bool _pauseBuilding;
-
-        public void Initialize(bool pauseBuilding, ToolGroup toolGroup, Color highlightColor, Color actionColor, Color areaTileColor,
+        
+        public void Initialize(ToolGroup toolGroup, Color highlightColor, Color actionColor, Color areaTileColor,
             Color areaSideColor)
         {
-            base.Initialize(toolGroup, highlightColor, actionColor, areaTileColor, areaSideColor);
-            this._pauseBuilding = pauseBuilding;
+            base.InitializeTool(toolGroup, highlightColor, actionColor, areaTileColor, areaSideColor);
             this.InitializeToolDescription();
         }
         
         private void InitializeToolDescription()
         {
             this._toolDescription = new ToolDescription.Builder(
-                _pauseBuilding ? _loc.T(TitlePauseLocKey) : _loc.T(TitlePlayLocKey))
+                _loc.T(TitlLocKey))
                 .AddSection(_loc.T(DescriptionLocKey))
                 .AddPrioritizedSection(_loc.T(PrioritizedLocKey))
                 .Build();
@@ -78,7 +73,7 @@ namespace DraggableUtils.Tools
                 if (component == null || !component.IsPausable())
                     continue;
 
-                if (_pauseBuilding)
+                if (!InputService.IsShiftHeld)
                     component.Pause();
                 else
                     component.Resume();

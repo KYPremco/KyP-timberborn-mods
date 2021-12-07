@@ -3,7 +3,6 @@ using System.Linq;
 using Timberborn.AreaSelectionSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Emptying;
-using Timberborn.Hauling;
 using Timberborn.InputSystem;
 using Timberborn.Localization;
 using Timberborn.ToolSystem;
@@ -13,10 +12,8 @@ namespace DraggableUtils.Tools
 {
     public class EmptyStorageTool : DraggableTool, IInputProcessor
     {
-        private static readonly string TitleStartLocKey = "Kyp.EmptyStorageTool.Start.Title";
-        
-        private static readonly string TitleStopLocKey = "Kyp.EmptyStorageTool.Stop.Title";
-        
+        private static readonly string TitleLocKey = "Kyp.EmptyStorageTool.Title";
+
         private static readonly string DescriptionLocKey = "Kyp.EmptyStorageTool.Description";
         
         private static readonly string PrioritizedLocKey = "Kyp.EmptyStorageTool.Prioritized";
@@ -24,9 +21,7 @@ namespace DraggableUtils.Tools
         private readonly ILoc _loc;
         
         private ToolDescription _toolDescription;
-
-        private bool _emptyStorage;
-
+        
         public EmptyStorageTool(AreaBlockObjectPickerFactory areaBlockObjectPickerFactory, 
             InputService inputService, 
             BlockObjectSelectionDrawerFactory blockObjectSelectionDrawerFactory, 
@@ -37,22 +32,19 @@ namespace DraggableUtils.Tools
             this._loc = loc;
         }
         
-        public void Initialize(bool emptyStorage, 
-            ToolGroup toolGroup,
+        public void Initialize(ToolGroup toolGroup,
             Color highlightColor,
             Color actionColor,
             Color areaTileColor,
             Color areaSideColor)
         {
-            base.Initialize(toolGroup, highlightColor, actionColor, areaTileColor, areaSideColor);
-            this._emptyStorage = emptyStorage;
+            base.InitializeTool(toolGroup, highlightColor, actionColor, areaTileColor, areaSideColor);
             InitializeToolDescription();
         }
         
         private void InitializeToolDescription()
         {
-            this._toolDescription = new ToolDescription.Builder(
-                    _emptyStorage ? _loc.T(TitleStartLocKey) : _loc.T(TitleStopLocKey))
+            this._toolDescription = new ToolDescription.Builder(_loc.T(TitleLocKey))
                 .AddSection(_loc.T(DescriptionLocKey))
                 .AddPrioritizedSection(_loc.T(PrioritizedLocKey))
                 .Build();
@@ -82,7 +74,7 @@ namespace DraggableUtils.Tools
                 if (component == null || !component.enabled)
                     continue;
                 
-                if (_emptyStorage)
+                if (!InputService.IsShiftHeld)
                     component.MarkForEmptyingWithStatus();
                 else
                     component.UnmarkForEmptying();

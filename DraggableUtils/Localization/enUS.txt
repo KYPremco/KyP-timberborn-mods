@@ -1,0 +1,11 @@
+ID,Text,Comment
+Kyp.ToolGroups.DraggableUtils,Draggable utilities
+Kyp.PauseTool.Title,Pause/Resume buildings
+Kyp.PauseTool.Description,Use this tool to set the status of buildings.
+Kyp.PauseTool.Prioritized,Click an item to set it's status or hold to select a bigger area. Use shift to reverse.
+Kyp.HaulPrioritizeTool.Title,Prioritize/Deprioritize haulers
+Kyp.HaulPrioritizeTool.Description,Use this tool to set the priority by haulers.
+Kyp.HaulPrioritizeTool.Prioritized,Click an item to set it's status or hold to select a bigger area. Use shift to reverse.
+Kyp.EmptyStorageTool.Title,Empty/Unempty storage
+Kyp.EmptyStorageTool.Description,Use this tool to set the status of empty storage.
+Kyp.EmptyStorageTool.Prioritized,Click an item to set it's status or hold to select a bigger area. Use shift to reverse.

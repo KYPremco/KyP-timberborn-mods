@@ -3,7 +3,6 @@ using DraggableUtils.Buttons;
 using DraggableUtils.Factorys;
 using DraggableUtils.Tools;
 using Timberborn.BottomBarSystem;
-using Timberborn.Effects;
 
 namespace DraggableUtils.Configurators
 {

@@ -12,10 +12,8 @@ namespace DraggableUtils.Tools
 {
     public class HaulPrioritizeTool : DraggableTool, IInputProcessor
     {
-        private static readonly string TitleStartLocKey = "Kyp.HaulPrioritizeTool.Start.Title";
-        
-        private static readonly string TitleStopLocKey = "Kyp.HaulPrioritizeTool.Stop.Title";
-        
+        private static readonly string TitleLocKey = "Kyp.HaulPrioritizeTool.Title";
+
         private static readonly string DescriptionLocKey = "Kyp.HaulPrioritizeTool.Description";
         
         private static readonly string PrioritizedLocKey = "Kyp.HaulPrioritizeTool.Prioritized";
@@ -23,9 +21,7 @@ namespace DraggableUtils.Tools
         private readonly ILoc _loc;
         
         private ToolDescription _toolDescription;
-
-        private bool _prioritizeHaulers;
-
+        
         public HaulPrioritizeTool(AreaBlockObjectPickerFactory areaBlockObjectPickerFactory, 
             InputService inputService, 
             BlockObjectSelectionDrawerFactory blockObjectSelectionDrawerFactory, 
@@ -36,22 +32,19 @@ namespace DraggableUtils.Tools
             this._loc = loc;
         }
         
-        public void Initialize(bool prioritizeHaulers, 
-            ToolGroup toolGroup,
+        public void Initialize(ToolGroup toolGroup,
             Color highlightColor,
             Color actionColor,
             Color areaTileColor,
             Color areaSideColor)
         {
-            base.Initialize(toolGroup, highlightColor, actionColor, areaTileColor, areaSideColor);
-            this._prioritizeHaulers = prioritizeHaulers;
+            base.InitializeTool(toolGroup, highlightColor, actionColor, areaTileColor, areaSideColor);
             this.InitializeToolDescription();
         }
         
         private void InitializeToolDescription()
         {
-            this._toolDescription = new ToolDescription.Builder(
-                    _prioritizeHaulers ? _loc.T(TitleStartLocKey) : _loc.T(TitleStopLocKey))
+            this._toolDescription = new ToolDescription.Builder(_loc.T(TitleLocKey))
                 .AddSection(_loc.T(DescriptionLocKey))
                 .AddPrioritizedSection(_loc.T(PrioritizedLocKey))
                 .Build();
@@ -80,7 +73,8 @@ namespace DraggableUtils.Tools
                 HaulPrioritizable component = blockObject.GetComponent<HaulPrioritizable>();
                 if (component == null || !component.enabled)
                     continue;
-                component.Prioritized = _prioritizeHaulers;
+                
+                component.Prioritized = !InputService.IsShiftHeld;
             }
         }
     }

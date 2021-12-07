@@ -11,8 +11,7 @@ namespace DraggableUtils.Tools
 {
     public abstract class DraggableTool : Tool, IInputProcessor
     {
-        
-        private readonly InputService _inputService;
+        protected readonly InputService InputService;
 
         private readonly AreaBlockObjectPickerFactory _areaBlockObjectPickerFactory;
 
@@ -32,7 +31,7 @@ namespace DraggableUtils.Tools
             CursorService cursorService)
         {
             this._areaBlockObjectPickerFactory = areaBlockObjectPickerFactory;
-            this._inputService = inputService;
+            this.InputService = inputService;
             this._blockObjectSelectionDrawerFactory = blockObjectSelectionDrawerFactory;
             this._cursorService = cursorService;
         }
@@ -45,7 +44,7 @@ namespace DraggableUtils.Tools
 
         public override void Enter()
         {
-            this._inputService.AddInputProcessor((IInputProcessor) this);
+            this.InputService.AddInputProcessor((IInputProcessor) this);
             this._areaBlockObjectPicker = this._areaBlockObjectPickerFactory.Create();
         }
 
@@ -54,10 +53,10 @@ namespace DraggableUtils.Tools
             this._cursorService.ResetCursor();
             this._highlightSelectionDrawer.StopDrawing();
             this._actionSelectionDrawer.StopDrawing();
-            this._inputService.RemoveInputProcessor((IInputProcessor) this);
+            this.InputService.RemoveInputProcessor((IInputProcessor) this);
         }
         
-        protected void Initialize(ToolGroup toolGroup,
+        protected void InitializeTool(ToolGroup toolGroup,
             Color highlightColor,
             Color actionColor,
             Color areaTileColor,

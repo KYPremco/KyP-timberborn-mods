@@ -1,9 +1,8 @@
-using System.IO;
-using CustomAssetLoader.AssetSystem;
 using DraggableUtils.Factorys;
 using DraggableUtils.Tools;
 using Timberborn.BottomBarSystem;
 using Timberborn.ToolSystem;
+using TimberbornAPI.AssetLoader.AssetSystem;
 using UnityEngine;
 
 namespace DraggableUtils.Buttons
@@ -43,22 +42,13 @@ namespace DraggableUtils.Buttons
             ToolGroupButton blue = this._toolGroupButtonFactory.CreateBlue((ToolGroup) this._draggableUtilsGroup);
             
             //Pause buildings
-            this.AddTool((Tool) this._draggableToolFactory.CreatePauseTool(true), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/pause_button"), blue);
-            
-            //Resume buildings
-            this.AddTool((Tool) this._draggableToolFactory.CreatePauseTool(false), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/play_button"), blue);
-            
+            this.AddTool((Tool) this._draggableToolFactory.CreatePauseTool(), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/pause_button"), blue);
+
             //Prioritize haulers
-            this.AddTool(this._draggableToolFactory.CreateHaulPrioritizeTool(true), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/hauler_button"), blue);
-            
-            //Deprioritize haulers
-            this.AddTool(this._draggableToolFactory.CreateHaulPrioritizeTool(false), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/hauler_disable_button"), blue);
-            
+            this.AddTool(this._draggableToolFactory.CreateHaulPrioritizeTool(), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/hauler_button"), blue);
+
             //Empty storage
-            this.AddTool(this._draggableToolFactory.CreateEmptyStorageTool(true), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/storage_empty_button"), blue);
-            
-            //Stop emptying storage
-            this.AddTool(this._draggableToolFactory.CreateEmptyStorageTool(false), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/storage_fill_button"), blue);
+            this.AddTool(this._draggableToolFactory.CreateEmptyStorageTool(), _assetLoader.Load<Sprite>("DraggableUtils/UI_Buttons/storage_empty_button"), blue);
 
             return BottomBarElement.CreateMultiLevel(blue.Root, blue.ToolButtonsElement);
         }

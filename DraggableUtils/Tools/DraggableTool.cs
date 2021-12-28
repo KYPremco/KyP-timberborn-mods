@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Timberborn.AreaSelectionSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Buildings;
+using Timberborn.CoreUI;
+using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
 using Timberborn.ToolSystem;
 using UnityEngine;

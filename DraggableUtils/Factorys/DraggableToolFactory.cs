@@ -3,6 +3,7 @@ using DraggableUtils.Tools;
 using Timberborn.AreaSelectionSystem;
 using Timberborn.CoreUI;
 using Timberborn.Emptying;
+using Timberborn.EntitySystem;
 using Timberborn.InputSystem;
 using Timberborn.Localization;
 using Timberborn.ToolSystem;
@@ -27,6 +28,8 @@ namespace DraggableUtils.Factorys
         private readonly DraggableUtilsGroup _pauseAbleToolGroup;
 
         private readonly ILoc _loc;
+
+        private readonly EntityService _entityService;
         
         public DraggableToolFactory(AreaBlockObjectPickerFactory areaBlockObjectPickerFactory,
             InputService inputService,
@@ -35,7 +38,7 @@ namespace DraggableUtils.Factorys
             UISoundController uiSoundController,
             DraggableUtilsGroup pauseAbleToolGroup,
             Colors colors, 
-            ILoc loc)
+            ILoc loc, EntityService entityService)
         {
             this._areaBlockObjectPickerFactory = areaBlockObjectPickerFactory;
             this._inputService = inputService;
@@ -45,11 +48,12 @@ namespace DraggableUtils.Factorys
             this._pauseAbleToolGroup = pauseAbleToolGroup;
             this._colors = colors;
             this._loc = loc;
+            _entityService = entityService;
         }
         
         public PauseTool CreatePauseTool()
         {
-            PauseTool pauseTool = new PauseTool(_areaBlockObjectPickerFactory, _inputService, _blockObjectSelectionDrawerFactory, _cursorService, _loc);
+            PauseTool pauseTool = new PauseTool(_areaBlockObjectPickerFactory, _inputService, _blockObjectSelectionDrawerFactory, _cursorService, _loc, _entityService);
             pauseTool.Initialize((ToolGroup) _pauseAbleToolGroup, this._colors.PriorityHiglightColor, this._colors.PriorityActionColor, this._colors.PriorityTileColor, this._colors.PrioritySideColor);
             return pauseTool;
         }

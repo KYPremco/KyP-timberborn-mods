@@ -3,6 +3,8 @@ using System.Linq;
 using Timberborn.AreaSelectionSystem;
 using Timberborn.BlockSystem;
 using Timberborn.Buildings;
+using Timberborn.EntitySystem;
+using Timberborn.GameDistricts;
 using Timberborn.InputSystem;
 using Timberborn.InventorySystem;
 using Timberborn.Localization;
@@ -22,6 +24,9 @@ namespace DraggableUtils.Tools
         private readonly ILoc _loc;
         
         private ToolDescription _toolDescription;
+
+        private readonly EntityService _entityService;
+        
         
         public void Initialize(ToolGroup toolGroup, Color highlightColor, Color actionColor, Color areaTileColor,
             Color areaSideColor)
@@ -45,10 +50,11 @@ namespace DraggableUtils.Tools
             InputService inputService, 
             BlockObjectSelectionDrawerFactory blockObjectSelectionDrawerFactory, 
             CursorService cursorService,
-            ILoc loc) 
+            ILoc loc, EntityService entityService) 
             : base(areaBlockObjectPickerFactory, inputService, blockObjectSelectionDrawerFactory, cursorService)
         {
             this._loc = loc;
+            _entityService = entityService;
         }
 
         public override IEnumerable<BlockObject> AreaSelectionExpression(IEnumerable<BlockObject> blockObjects)

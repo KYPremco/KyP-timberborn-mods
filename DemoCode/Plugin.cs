@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using CustomAssetLoader.ModPluginSystem;
 using CustomAssetLoader.RegisterSystem;
 using HarmonyLib;
 
@@ -17,7 +18,10 @@ namespace DemoCode
             new Harmony("com.kyp.plugin.demo").PatchAll();
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
             
-            AssetRegisterService.RegisterInGameAssets("com.kyp.plugin.demo", "Demo", new []{ "DemoPlugin" });
+            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.Global);
+            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.MainMenu);
+            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.MapEditor);
+            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.InGame);
         }
     }
 }

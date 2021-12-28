@@ -2,6 +2,7 @@ using CustomAssetLoader.AssetSystem;
 using Timberborn.CoreUI;
 using Timberborn.GameSaveRuntimeSystem;
 using Timberborn.GameUI;
+using Timberborn.Options;
 using Timberborn.SingletonSystem;
 using UnityEngine.UIElements;
 
@@ -18,7 +19,9 @@ namespace DemoCode.Panels
 
         public DemoPanel(
             GameLayout gameLayout,
-            IAssetLoader assetLoader, VisualElementInitializer visualElementInitializer, Autosaver autosaver)
+            IAssetLoader assetLoader, 
+            VisualElementInitializer visualElementInitializer, 
+            Autosaver autosaver)
         {
             this._gameLayout = gameLayout;
             this._assetLoader = assetLoader;

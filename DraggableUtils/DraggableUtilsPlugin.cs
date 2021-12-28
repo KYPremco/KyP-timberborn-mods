@@ -6,7 +6,7 @@ using TimberbornAPI.Common;
 
 namespace DraggableUtils
 {
-    [BepInPlugin("com.kyp.plugin.draggableutils", "Draggable Utilities", "1.3.0")]
+    [BepInPlugin("com.kyp.plugin.draggableutils", "Draggable Utilities", "1.4.0")]
     [BepInDependency("com.timberapi.timberapi")]
     public class DraggableUtilsPlugin : BaseUnityPlugin
     {

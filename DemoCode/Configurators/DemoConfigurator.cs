@@ -1,5 +1,6 @@
 using Bindito.Core;
 using DemoCode.Buttons;
+using DemoCode.Panels;
 using DemoCode.Tools;
 using Timberborn.BottomBarSystem;
 
@@ -14,6 +15,9 @@ namespace DemoCode.Configurators
 
             containerDefinition.Bind<DemoMultiLayeredButton>().AsSingleton();
             containerDefinition.MultiBind<BottomBarModule>().ToProvider<BottomBarModuleProvider>().AsSingleton();
+            
+            
+            containerDefinition.Bind<DemoPanel>().AsSingleton();
         }
         
         private class BottomBarModuleProvider : IProvider<BottomBarModule>

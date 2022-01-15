@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.0.7" PrivateAssets="all" />
-    <PackageReference Include="BepInEx.Core" Version="5.4.17" />
+    <PackageReference Include="BepInEx.Core" Version="5.4.16" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
     <PackageReference Include="UnityEngine.Modules" Version="2021.2.7" IncludeAssets="compile" />
     <PackageReference Include="Timberborn.GameLibs" Version="2021.12.17-r.0" />

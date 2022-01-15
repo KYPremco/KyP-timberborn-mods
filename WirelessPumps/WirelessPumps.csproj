@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>WirelessPumps</AssemblyName>
     <Description>Changes the max height of water pumps</Description>
-    <Version>1.0</Version>
+    <Version>2.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

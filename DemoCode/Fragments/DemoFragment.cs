@@ -1,9 +1,6 @@
-using System;
-using Timberborn.BlockSystem;
 using Timberborn.CoreUI;
 using Timberborn.EntityPanelSystem;
 using Timberborn.Localization;
-using Timberborn.WaterBuildings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,7 +14,7 @@ namespace DemoCode.Fragments
         
         private VisualElement _root;
         
-        private DepthMarker _depthMarker;
+        // private DepthMarker _depthMarker;
 
         private bool _toggleFragment;
 
@@ -40,11 +37,10 @@ namespace DemoCode.Fragments
             return this._root;
         }
         
-        public void ShowFragment(GameObject entity) => this._depthMarker = entity.GetComponent<DepthMarker>();
+        public void ShowFragment(GameObject entity) {}
         
         public void ClearFragment()
         {
-            this._depthMarker = (DepthMarker) null;
             this._root.ToggleDisplayStyle(false);
         }
 

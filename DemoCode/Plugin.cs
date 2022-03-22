@@ -1,8 +1,8 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using CustomAssetLoader.ModPluginSystem;
-using CustomAssetLoader.RegisterSystem;
 using HarmonyLib;
+using TimberbornAPI;
+using TimberbornAPI.Common;
 
 namespace DemoCode
 {
@@ -18,10 +18,10 @@ namespace DemoCode
             new Harmony("com.kyp.plugin.demo").PatchAll();
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
             
-            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.Global);
-            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.MainMenu);
-            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.MapEditor);
-            AssetRegisterService.RegisterAssets("com.kyp.plugin.demo", "Demo", new []{ "Assets" }, EScene.InGame);
+            TimberAPI.AssetRegistry.AddSceneAssets("com.kyp.plugin.demo", SceneEntryPoint.Global);
+            TimberAPI.AssetRegistry.AddSceneAssets("com.kyp.plugin.demo", SceneEntryPoint.MainMenu);
+            TimberAPI.AssetRegistry.AddSceneAssets("com.kyp.plugin.demo", SceneEntryPoint.MapEditor);
+            TimberAPI.AssetRegistry.AddSceneAssets("com.kyp.plugin.demo", SceneEntryPoint.InGame);
         }
     }
 }

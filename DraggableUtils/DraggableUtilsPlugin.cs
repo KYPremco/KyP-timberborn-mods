@@ -17,7 +17,7 @@ namespace DraggableUtils
             Log = Logger;
             Logger.LogInfo($"DraggableUtils is loaded!");
             TimberAPI.AssetRegistry.AddSceneAssets("DraggableUtils", SceneEntryPoint.InGame, new [] { "Assets" });
-            TimberAPI.DependecyRegistry.AddConfigurator(new DraggableUtilsConfigurator());
+            TimberAPI.DependencyRegistry.AddConfigurator(new DraggableUtilsConfigurator());
         }
     }
 }

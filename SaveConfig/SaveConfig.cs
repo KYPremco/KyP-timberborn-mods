@@ -1,8 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using Timberborn.Autosaving;
 using Timberborn.GameSaveRepositorySystem;
 using Timberborn.GameSaveRuntimeSystem;
+using Timberborn.GameSaveRuntimeSystemUI;
 using Timberborn.SettlementNameSystem;
 using Timberborn.SingletonSystem;
 
@@ -24,7 +26,7 @@ namespace SaveConfig
         }
         
         [HarmonyPatch(typeof(Autosaver), "InjectDependencies", 
-            typeof(ISaveTimestampFormatter),
+            typeof(SaveTimestampFormatter),
             typeof(GameSaver),
             typeof(EventBus),
             typeof(GameSaveRepository),

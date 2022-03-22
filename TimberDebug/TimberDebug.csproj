@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>TimberDebug</AssemblyName>
+    <Description>My first plugin</Description>
+    <Version>2021.1.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.0.7" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.4.16" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
+    <PackageReference Include="UnityEngine.Modules" Version="2021.2.5" IncludeAssets="compile" />
+<!--    <PackageReference Include="Timberborn.GameLibs" Version="2021.12.10-r.0" />-->
+    <PackageReference Include="LinqToCsv" Version="1.5.0">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TimberAPI\TimberAPI\TimberAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="../libs/*.dll">
+      <DestinationSubDirectory>libs\</DestinationSubDirectory>
+    </Reference>
+  </ItemGroup>
+</Project>

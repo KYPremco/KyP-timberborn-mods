@@ -14,9 +14,11 @@
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.0.7" PrivateAssets="all" />
-    <PackageReference Include="BepInEx.Core" Version="5.4.16" />
+    <PackageReference Include="BepInEx.Core" Version="5.4.17" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
     <PackageReference Include="UnityEngine.Modules" Version="2021.2.7" IncludeAssets="compile" />
+    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+    <PackageReference Include="Threenine.LinqToCsv" Version="1.6.0" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
@@ -24,8 +26,27 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Reference Include="C:\Development\prive\Timberborn\libs\*.dll" />
-    
-    <Reference Include="C:\Development\prive\Timberborn\mods\TimberApi\TimberAPI.dll" />
+    <ProjectReference Include="..\TimberAPI\TimberAPI\TimberAPI.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="$(SolutionDir)Timberborn\Timberborn_Data\Managed\Timberborn.*.dll">
+      <DestinationSubDirectory>libs\</DestinationSubDirectory>
+    </Reference>
+    <Reference Include="$(SolutionDir)Timberborn\Timberborn_Data\Managed\Bindito.*.dll">
+      <DestinationSubDirectory>libs\</DestinationSubDirectory>
+    </Reference>
+    <Reference Include="$(SolutionDir)Timberborn\Timberborn_Data\Managed\Newtonsoft.Json.dll">
+      <DestinationSubDirectory>libs\</DestinationSubDirectory>
+    </Reference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <BepInExPluginPath>$(SolutionDir)Timberborn\BepInEx\plugins\</BepInExPluginPath>
+  </PropertyGroup>
+
+  <Target Name="AutomaticCopyToTimberborn2" BeforeTargets="AfterBuild">
+    <Message Text="### Copying dll to timberborn plugin folder ###" Importance="high" />
+    <Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="$(BepInExPluginPath)$(ProjectName)" />
+  </Target>
 </Project>

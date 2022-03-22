@@ -20,6 +20,7 @@ namespace WirelessPumps
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
             _bonusHeightPump = Config.Bind("Settings", "bonusHeightPump", 0, "Addition height given to water pumps. Min: 0, Max: 25");
             _bonusHeightMover = Config.Bind("Settings", "bonusHeightMover", 0, "Addition height given to water movers. Min: 0, Max: 25");
+            
             Logger.LogInfo($"Wireless Pumps is loaded!");
         }
         

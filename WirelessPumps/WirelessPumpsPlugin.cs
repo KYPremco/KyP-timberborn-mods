@@ -29,6 +29,9 @@ namespace WirelessPumps
         {
             public static void Postfix(ref WaterManufactory __instance, ref Vector3 ____waterCoordinates)
             {
+                if(__instance.gameObject.name.StartsWith("WaterDump"))
+                    return;
+                
                 __instance.WaterCoordinates.z -= Math.Clamp(_bonusHeightPump.Value, 0, 25);
                 ____waterCoordinates.z -= Math.Clamp(_bonusHeightPump.Value, 0, 25);
             }

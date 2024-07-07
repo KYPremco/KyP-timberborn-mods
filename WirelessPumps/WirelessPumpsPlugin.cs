@@ -4,7 +4,6 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using Timberborn.WaterBuildings;
-using Timberborn.Workshops;
 using UnityEngine;
 
 namespace WirelessPumps
@@ -12,38 +11,53 @@ namespace WirelessPumps
     [BepInPlugin("com.kyp.plugin.wirelesspumps", "Wireless Pumps", "1.0.0")]
     public class WirelessPumpsPlugin : BaseUnityPlugin
     {
-        private static ConfigEntry<int> _bonusHeightPump;
-        private static ConfigEntry<int> _bonusHeightMover;
+        private static ConfigEntry<int> _bonusHeight;
+
+        private static ConfigEntry<int> _bonusHeightMultiplier;
         
         private void Awake()
         {
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
-            _bonusHeightPump = Config.Bind("Settings", "bonusHeightPump", 0, "Addition height given to water pumps. Min: 0, Max: 25");
-            _bonusHeightMover = Config.Bind("Settings", "bonusHeightMover", 0, "Addition height given to water movers. Min: 0, Max: 25");
+            
+            _bonusHeight = Config.Bind("_General Settings", "bonusHeight", 0, "Bonus height to all pumps.");
+            _bonusHeightMultiplier = Config.Bind("_General Settings", "bonusHeightMultiplier", 1, "Bonus height multiplier to all pumps.");
+
+            foreach (var prefab in Resources.LoadAll<WaterInputSpecification>("Buildings"))
+            {
+                var pump = ExtractPump(prefab.name);
+
+                var pumpConfig = Config.Bind(pump.Faction, pump.Name, prefab.MaxDepth, $"Maximum height for {pump.Name}.");
+                
+                var maxDepth = Math.Clamp(pumpConfig.Value, 0, 1000);
+                
+                prefab._maxDepth = maxDepth;
+            }
             
             Logger.LogInfo($"Wireless Pumps is loaded!");
         }
         
-        [HarmonyPatch(typeof(WaterManufactory), "Start")]
-        static class InfinityDepthPumps
+        private static Pump ExtractPump(string prefabName)
         {
-            public static void Postfix(ref WaterManufactory __instance, ref Vector3 ____waterCoordinates)
-            {
-                if(__instance.gameObject.name.StartsWith("WaterDump"))
-                    return;
-                
-                __instance.WaterCoordinates.z -= Math.Clamp(_bonusHeightPump.Value, 0, 25);
-                ____waterCoordinates.z -= Math.Clamp(_bonusHeightPump.Value, 0, 25);
-            }
+            var factionSeparatorIndex = prefabName.LastIndexOf('.');
+            
+            var pumpName = prefabName[..factionSeparatorIndex];
+            var faction = prefabName[(factionSeparatorIndex + 1)..];
+
+            return new Pump(pumpName, faction);
         }
         
-        [HarmonyPatch(typeof(WaterMover), "Awake")]
-        static class InfinityDepthWaterMover
+        [HarmonyPatch]
+        internal static class Patches
         {
-            public static void Postfix(ref WaterMover __instance)
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(WaterInputSpecification), "Awake")]
+            private static bool DepthPatcher(ref int ____maxDepth)
             {
-                __instance.Input.z -= Math.Clamp(_bonusHeightMover.Value, 0, 25);
+                ____maxDepth = ____maxDepth * _bonusHeightMultiplier.Value + _bonusHeight.Value;
+
+                return false;
             }
+
         }
     }
 }

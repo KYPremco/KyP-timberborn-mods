@@ -1,7 +1,13 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CKYPremco_005CDocuments_005CTimberborn_005CMods_005CModSettings_005CScripts_005CModSettings_002ECommon_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CKYPremco_005CDocuments_005CTimberborn_005CMods_005CModSettings_005CScripts_005CModSettings_002ECommonUI_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CKYPremco_005CDocuments_005CTimberborn_005CMods_005CModSettings_005CScripts_005CModSettings_002ECore_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CKYPremco_005CDocuments_005CTimberborn_005CMods_005CModSettings_005CScripts_005CModSettings_002ECoreUI_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer /&gt;</s:String>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=2d04475f_002D9f12_002D4d75_002Dbba6_002D8b258200e7fe_0023SaveConfig/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=8ce42e1a_002De9f1_002D4162_002D80af_002D8bdccc312892_0023DemoCode/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=9f163e8e_002Df6b3_002D43b0_002D96ff_002D94baca2f1a4f_0023DraggableUtils/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=b2b25823_002D1ee1_002D4845_002Da4aa_002D40fd27b91380_0023InventoryPresetPlugin/@EntryIndexedValue">True</s:Boolean>
 	
 	
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=b698bc9a_002D37f2_002D4874_002D9f85_002D433886b4c0de_0023ScienceTree/@EntryIndexedValue">True</s:Boolean>

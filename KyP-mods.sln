@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScienceTree", "ScienceTree\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimberAPI", "TimberAPI\TimberAPI\TimberAPI.csproj", "{BBACDA9B-B0F1-426E-A458-D274B984DF05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WirelessPumps", "WirelessPumps\WirelessPumps.csproj", "{78311FAD-2BBC-4D7E-B50C-CEAE41CA83B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PumpExtender", "PumpExtender\PumpExtender.csproj", "{78311FAD-2BBC-4D7E-B50C-CEAE41CA83B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TimberAPI", "TimberAPI", "{8EFA7EF1-84AE-4CE6-AFE3-929DD1F9CA03}"
 EndProject

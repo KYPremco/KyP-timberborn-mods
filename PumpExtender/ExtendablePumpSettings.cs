@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using ModSettings.Common;
@@ -8,6 +9,7 @@ using Timberborn.Modding;
 using Timberborn.SettingsSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.WaterBuildings;
+using Debug = UnityEngine.Debug;
 
 namespace PumpExtender;
 
@@ -20,7 +22,7 @@ public class ExtendablePumpSettings(
 {
     private bool _firstLoad;
 
-    private static Dictionary<string, int> _pipeDepthDefaults = new();
+    private static readonly Dictionary<string, int> PipeDepthDefaults = new();
     
     private readonly Dictionary<string, ModSetting<int>> _settings = new();
 
@@ -28,17 +30,17 @@ public class ExtendablePumpSettings(
 
     protected override void OnAfterLoad()
     {
-        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("").ToList();
+        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();
 
         SaveDefaultValues(waterInputSpecifications);
 
         foreach (var specification in waterInputSpecifications)
         {
             var setting = new RangeIntModSetting(
-                ExtractPumpName(specification.Asset.name),
-                _pipeDepthDefaults[specification.Asset.name],
+                PipeDepthDefaults[specification.Asset.name],
                 1,
-                30
+                30,
+                ModSettingDescriptor.Create(ExtractPumpName(specification.Asset.name))
             );
             
             AddCustomModSetting(setting, specification.Asset.name);
@@ -64,9 +66,9 @@ public class ExtendablePumpSettings(
 
         foreach (var specification in waterInputSpecifications)
         {
-            if(! _pipeDepthDefaults.ContainsKey(specification.Asset.name))
+            if(! PipeDepthDefaults.ContainsKey(specification.Asset.name))
             {
-                _pipeDepthDefaults.TryAdd(specification.Asset.name, specification.Asset.MaxDepth);
+                PipeDepthDefaults.TryAdd(specification.Asset.name, specification.Asset.MaxDepth);
             }
         }
         
@@ -86,13 +88,19 @@ public class ExtendablePumpSettings(
     private static string AddSpacesToSentence(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
+        {
             return "";
-        StringBuilder newText = new StringBuilder(text.Length * 2);
+        }
+           
+        var newText = new StringBuilder(text.Length * 2);
         newText.Append(text[0]);
-        for (int i = 1; i < text.Length; i++)
+        for (var i = 1; i < text.Length; i++)
         {
             if (char.IsUpper(text[i]) && text[i - 1] != ' ')
+            {
                 newText.Append(' ');
+            }
+                
             newText.Append(text[i]);
         }
         return newText.ToString();

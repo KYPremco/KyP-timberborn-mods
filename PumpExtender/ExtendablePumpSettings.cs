@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using ModSettings.Common;
@@ -9,7 +8,6 @@ using Timberborn.Modding;
 using Timberborn.SettingsSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.WaterBuildings;
-using Debug = UnityEngine.Debug;
 
 namespace PumpExtender;
 
@@ -23,7 +21,7 @@ public class ExtendablePumpSettings(
     private bool _firstLoad;
 
     private static readonly Dictionary<string, int> PipeDepthDefaults = new();
-    
+
     private readonly Dictionary<string, ModSetting<int>> _settings = new();
 
     protected override string ModId => "KyP.PumpExtender";
@@ -36,19 +34,22 @@ public class ExtendablePumpSettings(
 
         foreach (var specification in waterInputSpecifications)
         {
-            var setting = new RangeIntModSetting(
-                PipeDepthDefaults[specification.Asset.name],
-                1,
-                30,
-                ModSettingDescriptor.Create(ExtractPumpName(specification.Asset.name))
-            );
-            
-            AddCustomModSetting(setting, specification.Asset.name);
-            
-            _settings.Add(specification.Asset.name, setting);
+            if (_settings.ContainsKey(specification.Asset.name))
+            {
+                var setting = new RangeIntModSetting(
+                    PipeDepthDefaults[specification.Asset.name],
+                    1,
+                    30,
+                    ModSettingDescriptor.Create(ExtractPumpName(specification.Asset.name))
+                );
+
+                AddCustomModSetting(setting, specification.Asset.name);
+
+                _settings.Add(specification.Asset.name, setting);
+            }
         }
     }
-    
+
     public void Unload()
     {
         foreach (var specification in assetLoader.LoadAll<WaterInputSpecification>(""))
@@ -66,12 +67,12 @@ public class ExtendablePumpSettings(
 
         foreach (var specification in waterInputSpecifications)
         {
-            if(! PipeDepthDefaults.ContainsKey(specification.Asset.name))
+            if (!PipeDepthDefaults.ContainsKey(specification.Asset.name))
             {
                 PipeDepthDefaults.TryAdd(specification.Asset.name, specification.Asset.MaxDepth);
             }
         }
-        
+
         _firstLoad = true;
     }
 
@@ -84,14 +85,14 @@ public class ExtendablePumpSettings(
 
         return $"{pumpName} ({faction})";
     }
-    
+
     private static string AddSpacesToSentence(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
         {
             return "";
         }
-           
+
         var newText = new StringBuilder(text.Length * 2);
         newText.Append(text[0]);
         for (var i = 1; i < text.Length; i++)
@@ -100,9 +101,10 @@ public class ExtendablePumpSettings(
             {
                 newText.Append(' ');
             }
-                
+
             newText.Append(text[i]);
         }
+
         return newText.ToString();
     }
 }

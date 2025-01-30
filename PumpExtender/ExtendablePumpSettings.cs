@@ -34,7 +34,7 @@ public class ExtendablePumpSettings(
 
         foreach (var specification in waterInputSpecifications)
         {
-            if (_settings.ContainsKey(specification.Asset.name))
+            if (! _settings.ContainsKey(specification.Asset.name))
             {
                 var setting = new RangeIntModSetting(
                     PipeDepthDefaults[specification.Asset.name],
@@ -52,7 +52,7 @@ public class ExtendablePumpSettings(
 
     public void Unload()
     {
-        foreach (var specification in assetLoader.LoadAll<WaterInputSpecification>(""))
+        foreach (var specification in assetLoader.LoadAll<WaterInputSpecification>("buildings"))
         {
             specification.Asset._maxDepth = _settings[specification.Asset.name].Value;
         }

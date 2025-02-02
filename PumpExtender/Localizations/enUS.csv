@@ -1,0 +1,9 @@
+ID,Text,Comment
+KyP.PumpExtender.GlobalSettingsHeader,Global Pump Modifier,
+KyP.PumpExtender.UseGlobalModifier,Use Global Pump Modifier,
+KyP.PumpExtender.UseGlobalModifierToolTip,Increase/Decreases all pump settings,
+KyP.PumpExtender.GlobalModifier,Global Pump Modifier,
+KyP.PumpExtender.IndividualPumpSettings,Individual Pump Settings,
+KyP.Use.IndividualPumpSettings,Use Individual Pump Settings,
+KyP.Use.IndividualPumpSettingsTooltip,Enabling this will give settings for all pumps on next reload. It can slowdown loading the game by few seconds.,
+

@@ -29,16 +29,16 @@
     <Reference Include="G:\Games\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\Bindito.*.dll">
       <DestinationSubDirectory>libs\</DestinationSubDirectory>
     </Reference>
-    <Reference Include="ModSettings.Common">
+    <Reference Include="ModSettings.Common" Publicize="true">
       <HintPath>C:\Users\KYPremco\Documents\Timberborn\Mods\ModSettings\Scripts\ModSettings.Common.dll</HintPath>
     </Reference>
-    <Reference Include="ModSettings.CommonUI">
+    <Reference Include="ModSettings.CommonUI" Publicize="true">
       <HintPath>C:\Users\KYPremco\Documents\Timberborn\Mods\ModSettings\Scripts\ModSettings.CommonUI.dll</HintPath>
     </Reference>
-    <Reference Include="ModSettings.Core">
+    <Reference Include="ModSettings.Core" Publicize="true">
       <HintPath>C:\Users\KYPremco\Documents\Timberborn\Mods\ModSettings\Scripts\ModSettings.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ModSettings.CoreUI">
+    <Reference Include="ModSettings.CoreUI" Publicize="true">
       <HintPath>C:\Users\KYPremco\Documents\Timberborn\Mods\ModSettings\Scripts\ModSettings.CoreUI.dll</HintPath>
     </Reference>
   </ItemGroup>

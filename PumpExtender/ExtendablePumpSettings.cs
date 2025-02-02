@@ -18,41 +18,66 @@ public class ExtendablePumpSettings(
     IAssetLoader assetLoader)
     : ModSettingsOwner(settings, modSettingsOwnerRegistry, modRepository), IUnloadableSingleton
 {
+    public override string ModId => "KyP.PumpExtender";
+    
+    public override string HeaderLocKey => "KyP.PumpExtender.IndividualPumpSettings";
+
+    public override int Order => 20;
+    
     private bool _firstLoad;
+
+    private List<LoadedAsset<WaterInputSpecification>> _waterInputSpecifications;
 
     private static readonly Dictionary<string, int> PipeDepthDefaults = new();
 
-    private readonly Dictionary<string, ModSetting<int>> _settings = new();
+    private new readonly Dictionary<string, ModSetting<int>> _settings = new();
+    
+    private static ModSetting<bool> UseIndividualPumpSettings { get; } = new(true, ModSettingDescriptor.CreateLocalized("KyP.Use.IndividualPumpSettings").SetLocalizedTooltip("KyP.Use.IndividualPumpSettingsTooltip"));
 
-    protected override string ModId => "KyP.PumpExtender";
-
-    protected override void OnAfterLoad()
+    public override void OnAfterLoad()
     {
-        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();
-
-        SaveDefaultValues(waterInputSpecifications);
-
-        foreach (var specification in waterInputSpecifications)
+        AddCustomModSetting(UseIndividualPumpSettings, "KyP.Use.IndividualPumpSettings");
+        
+        if (UseIndividualPumpSettings.Value)
         {
-            if (! _settings.ContainsKey(specification.Asset.name))
+            RegisterIndividualPumpSettings();
+        }
+    }
+    
+    private void RegisterIndividualPumpSettings()
+    {
+        _waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();
+        
+        SaveDefaultValues(_waterInputSpecifications);
+        
+        foreach (var specification in _waterInputSpecifications)
+        {
+            if (_settings.ContainsKey(specification.Asset.name))
             {
-                var setting = new RangeIntModSetting(
-                    PipeDepthDefaults[specification.Asset.name],
-                    1,
-                    30,
-                    ModSettingDescriptor.Create(ExtractPumpName(specification.Asset.name))
-                );
-
-                AddCustomModSetting(setting, specification.Asset.name);
-
-                _settings.Add(specification.Asset.name, setting);
+                continue;
             }
+        
+            var setting = new RangeIntModSetting(
+                PipeDepthDefaults[specification.Asset.name],
+                1,
+                45,
+                ModSettingDescriptor.Create(ExtractPumpName(specification.Asset.name))
+            );
+            
+            AddCustomModSetting(setting, specification.Asset.name);
+
+            _settings.Add(specification.Asset.name, setting);
         }
     }
 
     public void Unload()
     {
-        foreach (var specification in assetLoader.LoadAll<WaterInputSpecification>("buildings"))
+        if (! UseIndividualPumpSettings.Value)
+        {
+            return;
+        }
+        
+        foreach (var specification in _waterInputSpecifications)
         {
             specification.Asset._maxDepth = _settings[specification.Asset.name].Value;
         }

@@ -26,8 +26,6 @@ public class ExtendablePumpSettings(
     
     private bool _firstLoad;
 
-    private List<LoadedAsset<WaterInputSpecification>> _waterInputSpecifications;
-
     private static readonly Dictionary<string, int> PipeDepthDefaults = new();
 
     private new readonly Dictionary<string, ModSetting<int>> _settings = new();
@@ -46,11 +44,11 @@ public class ExtendablePumpSettings(
     
     private void RegisterIndividualPumpSettings()
     {
-        _waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();
+        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();;
         
-        SaveDefaultValues(_waterInputSpecifications);
+        SaveDefaultValues(waterInputSpecifications);
         
-        foreach (var specification in _waterInputSpecifications)
+        foreach (var specification in waterInputSpecifications)
         {
             if (_settings.ContainsKey(specification.Asset.name))
             {
@@ -77,7 +75,9 @@ public class ExtendablePumpSettings(
             return;
         }
         
-        foreach (var specification in _waterInputSpecifications)
+        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();
+        
+        foreach (var specification in waterInputSpecifications)
         {
             specification.Asset._maxDepth = _settings[specification.Asset.name].Value;
         }

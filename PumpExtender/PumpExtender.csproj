@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Lib.Harmony" Version="2.3.3" />
-    <PackageReference Include="UnityEngine.Modules" Version="2023.1.20" IncludeAssets="compile" />
+<!--    <PackageReference Include="UnityEngine.Modules" Version="2023.1.20" IncludeAssets="compile" />-->
     <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
     <PackageReference Include="Threenine.LinqToCsv" Version="1.6.0" />
   </ItemGroup>
@@ -41,6 +41,7 @@
     <Reference Include="ModSettings.CoreUI" Publicize="true">
       <HintPath>C:\Users\KYPremco\Documents\Timberborn\Mods\ModSettings\Scripts\ModSettings.CoreUI.dll</HintPath>
     </Reference>
+    <Reference Include="G:\Development\TimberApi\Libs\UnityEngine.*.dll" Publicize="true" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -9,7 +9,7 @@ using Timberborn.WaterBuildings;
 
 namespace PumpExtender;
 
-[HarmonyPatch(typeof(WaterInputSpecification), "Awake")]
+[HarmonyPatch(typeof(WaterInputSpec), "Awake")]
 public class GlobalPumpSettings(
     ISettings settings,
     ModSettingsOwnerRegistry modSettingsOwnerRegistry,
@@ -51,7 +51,7 @@ public class GlobalPumpSettings(
     }
     
     [HarmonyPrefix]
-    public static void ChangePipeDepth(WaterInputSpecification __instance)
+    public static void ChangePipeDepth(WaterInputSpec __instance)
     {
         __instance._maxDepth = Math.Clamp(__instance._maxDepth + GlobalModifier.Value, 1, int.MaxValue);
     }

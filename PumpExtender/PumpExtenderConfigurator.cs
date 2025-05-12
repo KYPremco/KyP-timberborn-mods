@@ -11,3 +11,13 @@ public class PumpExtenderConfigurator : IConfigurator
         containerDefinition.Bind<ExtendablePumpSettings>().AsSingleton();
     }
 }
+
+[Context("Game")]
+public class PumpExtenderConfiguratorInGame : IConfigurator
+{
+    public void Configure(IContainerDefinition containerDefinition)
+    {
+        containerDefinition.Bind<ExtendablePumpSettings>().AsSingleton();
+        containerDefinition.Bind<SwapInGameMaxDepth>().AsSingleton();
+    }
+}

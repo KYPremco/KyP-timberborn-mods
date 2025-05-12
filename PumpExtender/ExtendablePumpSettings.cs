@@ -6,7 +6,6 @@ using ModSettings.Core;
 using Timberborn.AssetSystem;
 using Timberborn.Modding;
 using Timberborn.SettingsSystem;
-using Timberborn.SingletonSystem;
 using Timberborn.WaterBuildings;
 
 namespace PumpExtender;
@@ -16,7 +15,7 @@ public class ExtendablePumpSettings(
     ModSettingsOwnerRegistry modSettingsOwnerRegistry,
     ModRepository modRepository,
     IAssetLoader assetLoader)
-    : ModSettingsOwner(settings, modSettingsOwnerRegistry, modRepository), IUnloadableSingleton
+    : ModSettingsOwner(settings, modSettingsOwnerRegistry, modRepository)
 {
     public override string ModId => "KyP.PumpExtender";
     
@@ -30,8 +29,10 @@ public class ExtendablePumpSettings(
 
     private new readonly Dictionary<string, ModSetting<int>> _settings = new();
     
-    private static ModSetting<bool> UseIndividualPumpSettings { get; } = new(true, ModSettingDescriptor.CreateLocalized("KyP.Use.IndividualPumpSettings").SetLocalizedTooltip("KyP.Use.IndividualPumpSettingsTooltip"));
+    public static ModSetting<bool> UseIndividualPumpSettings { get; } = new(true, ModSettingDescriptor.CreateLocalized("KyP.Use.IndividualPumpSettings").SetLocalizedTooltip("KyP.Use.IndividualPumpSettingsTooltip"));
 
+    public Dictionary<string, ModSetting<int>> Settings => _settings;
+    
     public override void OnAfterLoad()
     {
         AddCustomModSetting(UseIndividualPumpSettings, "KyP.Use.IndividualPumpSettings");
@@ -44,7 +45,7 @@ public class ExtendablePumpSettings(
     
     private void RegisterIndividualPumpSettings()
     {
-        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();;
+        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpec>("buildings").ToList();;
         
         SaveDefaultValues(waterInputSpecifications);
         
@@ -68,22 +69,7 @@ public class ExtendablePumpSettings(
         }
     }
 
-    public void Unload()
-    {
-        if (! UseIndividualPumpSettings.Value)
-        {
-            return;
-        }
-        
-        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpecification>("buildings").ToList();
-        
-        foreach (var specification in waterInputSpecifications)
-        {
-            specification.Asset._maxDepth = _settings[specification.Asset.name].Value;
-        }
-    }
-
-    private void SaveDefaultValues(IEnumerable<LoadedAsset<WaterInputSpecification>> waterInputSpecifications)
+    private void SaveDefaultValues(IEnumerable<LoadedAsset<WaterInputSpec>> waterInputSpecifications)
     {
         if (_firstLoad)
         {

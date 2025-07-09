@@ -1,24 +1,41 @@
 using System.Linq;
+using HarmonyLib;
 using Timberborn.AssetSystem;
 using Timberborn.SingletonSystem;
 using Timberborn.WaterBuildings;
 
 namespace PumpExtender;
 
-public class SwapInGameMaxDepth(IAssetLoader assetLoader, ExtendablePumpSettings extendablePumpSettings) : ILoadableSingleton
+[HarmonyPatchCategory("SwapIndividualPumps")]
+[HarmonyPatch(typeof(SingletonLifecycleService), "LoadAll")]
+public class SwapInGameMaxDepth
 {
-    public void Load()
+    private static IAssetLoader _assetLoader;
+
+    public SwapInGameMaxDepth(IAssetLoader assetLoader)
     {
-        if (! ExtendablePumpSettings.UseIndividualPumpSettings.Value)
+        _assetLoader = assetLoader;
+    }
+
+    [HarmonyPrefix]
+    public static void Load()
+    {
+        var waterInputSpecifications = _assetLoader.LoadAll<WaterInputSpec>("buildings").ToList();
+
+        if (GlobalPumpSettings.UseGlobalModifier.Value)
         {
-            return;
+            foreach (var specification in waterInputSpecifications)
+            {
+                specification.Asset._maxDepth = GlobalPumpSettings.GlobalModifier.Value + specification.Asset._maxDepth;
+            }
         }
-        
-        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpec>("buildings").ToList();
-        
-        foreach (var specification in waterInputSpecifications)
+
+        if (ExtendablePumpSettings.UseIndividualPumpSettings.Value)
         {
-            specification.Asset._maxDepth = extendablePumpSettings.Settings[specification.Asset.name].Value;
+            foreach (var specification in waterInputSpecifications)
+            {
+                specification.Asset._maxDepth = ExtendablePumpSettings.PumpSettings[specification.Asset.name].Value;
+            }
         }
     }
 }

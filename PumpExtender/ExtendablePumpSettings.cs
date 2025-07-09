@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HarmonyLib;
 using ModSettings.Common;
 using ModSettings.Core;
 using Timberborn.AssetSystem;
 using Timberborn.Modding;
 using Timberborn.SettingsSystem;
+using Timberborn.SingletonSystem;
 using Timberborn.WaterBuildings;
 
 namespace PumpExtender;
@@ -15,7 +17,7 @@ public class ExtendablePumpSettings(
     ModSettingsOwnerRegistry modSettingsOwnerRegistry,
     ModRepository modRepository,
     IAssetLoader assetLoader)
-    : ModSettingsOwner(settings, modSettingsOwnerRegistry, modRepository)
+    : ModSettingsOwner(settings, modSettingsOwnerRegistry, modRepository), IUnloadableSingleton
 {
     public override string ModId => "KyP.PumpExtender";
     
@@ -27,11 +29,15 @@ public class ExtendablePumpSettings(
 
     private static readonly Dictionary<string, int> PipeDepthDefaults = new();
 
-    private new readonly Dictionary<string, ModSetting<int>> _settings = new();
+    private static readonly Dictionary<string, ModSetting<int>> _pumpSettings = new();
+    
+    private static readonly Harmony IndividualPumpHarmony = new("KyP.PumpExtender.Individual");
+    
+    private static bool _loaded = false;
     
     public static ModSetting<bool> UseIndividualPumpSettings { get; } = new(true, ModSettingDescriptor.CreateLocalized("KyP.Use.IndividualPumpSettings").SetLocalizedTooltip("KyP.Use.IndividualPumpSettingsTooltip"));
 
-    public Dictionary<string, ModSetting<int>> Settings => _settings;
+    public static Dictionary<string, ModSetting<int>> PumpSettings => _pumpSettings;
     
     public override void OnAfterLoad()
     {
@@ -45,13 +51,13 @@ public class ExtendablePumpSettings(
     
     private void RegisterIndividualPumpSettings()
     {
-        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpec>("buildings").ToList();;
+        var waterInputSpecifications = assetLoader.LoadAll<WaterInputSpec>("buildings").ToList();
         
         SaveDefaultValues(waterInputSpecifications);
         
         foreach (var specification in waterInputSpecifications)
         {
-            if (_settings.ContainsKey(specification.Asset.name))
+            if (_pumpSettings.ContainsKey(specification.Asset.name))
             {
                 continue;
             }
@@ -65,7 +71,22 @@ public class ExtendablePumpSettings(
             
             AddCustomModSetting(setting, specification.Asset.name);
 
-            _settings.Add(specification.Asset.name, setting);
+            _pumpSettings.Add(specification.Asset.name, setting);
+        }
+    }
+    
+    public void Unload()
+    {
+        switch (UseIndividualPumpSettings.Value)
+        {
+            case true when ! _loaded:
+                IndividualPumpHarmony.PatchCategory("SwapIndividualPumps");
+                _loaded = true;
+                break;
+            case false when _loaded:
+                IndividualPumpHarmony.UnpatchCategory("SwapIndividualPumps");
+                _loaded = false;
+                break;
         }
     }
 
@@ -75,7 +96,7 @@ public class ExtendablePumpSettings(
         {
             return;
         }
-
+        
         foreach (var specification in waterInputSpecifications)
         {
             if (!PipeDepthDefaults.ContainsKey(specification.Asset.name))
